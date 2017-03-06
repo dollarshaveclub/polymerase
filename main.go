@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/dollarshaveclub/go-lib/vaultclient"
+	"github.com/dollarshaveclub/polymerase/pkg/vaultclient"
 	"github.com/spf13/cobra"
 )
 
