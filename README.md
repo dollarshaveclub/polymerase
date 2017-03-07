@@ -1,13 +1,13 @@
-# polymerase 
+# polymerase
 
-Polymerase is a tool for easy templating using environment variables and vault values. 
+Polymerase is a tool for easy templating using environment variables and vault values.
 
-Polymerase takes a file containing go-style template directives as an argument, populates the template directives with values based on environment variables and vault, and outputs the result to STDOUT. 
+Polymerase takes a file containing go-style template directives as an argument, populates the template directives with values based on environment variables and vault, and outputs the result to STDOUT.
 
-## Installation 
+## Installation
 
 ```
-go install github.com/dollarshaveclub/polymerase 
+go install github.com/dollarshaveclub/polymerase
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ Flags:
   -t, --vault-token string    Vault token. Can use VAULT_TOKEN environment variable instead.
 ```
 
-## Example 
+## Example
 
 
 Given `file.tmpl`:
@@ -47,9 +47,8 @@ Produces:
 Hello, World! My name is James.
 ```
 
-Alternatively, the input can be provided via stdin:
+Alternatively, input can be provided via stdin:
 
 ```
 echo "{{ .TEST }}" | VAULT_ADDR=https://vault.internal VAULT_TOKEN=1234kasd LOCATION=World polymerase
 ```
-
