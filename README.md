@@ -47,3 +47,9 @@ Produces:
 Hello, World! My name is James.
 ```
 
+Alternatively, the input can be provided via stdin:
+
+```
+echo "{{ .TEST }}" | VAULT_ADDR=https://vault.internal VAULT_TOKEN=1234kasd LOCATION=World polymerase
+```
+
