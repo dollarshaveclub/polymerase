@@ -35,13 +35,13 @@ Given `file.tmpl`:
 Hello, {{ .LOCATION }}! My name is {{ vault "secret_agents/007/first_name" }}.
 ```
 
-Command:
+Running:
 
 ```
 VAULT_ADDR=https://vault.internal VAULT_TOKEN=1234kasd LOCATION=World polymerase file.tmpl
 ```
 
-Output:
+Produces:
 
 ```
 Hello, World! My name is James.
