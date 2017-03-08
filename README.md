@@ -1,8 +1,8 @@
 # polymerase
 
-Polymerase is a tool for easy templating using environment variables and vault values.
+Polymerase is a tool for easy templating using environment variables and [Vault](https://www.vaultproject.io) values.
 
-Polymerase takes a file containing go-style template directives as an argument, populates the template directives with values based on environment variables and vault, and outputs the result to STDOUT.
+Polymerase takes a file containing Go-style template directives as an argument, populates the template directives with values based on environment variables and Vault, and outputs the result to stdout. Supported Vault auth backends include [token](https://www.vaultproject.io/docs/auth/token.html) and [App ID](https://www.vaultproject.io/docs/auth/app-id.html).
 
 ## Installation
 
