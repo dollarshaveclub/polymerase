@@ -4,26 +4,14 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 	"strings"
-	"text/template"
 
-	"github.com/dollarshaveclub/go-lib/vaultclient"
 	"github.com/spf13/cobra"
 )
 
-var vault *vaultclient.VaultClient
+var vault Vault
 var logger = log.New(os.Stderr, "", log.LstdFlags)
-
-// Config for polymerase
-type Config struct {
-	VaultAddr       string
-	VaultToken      string
-	VaultAppID      string
-	VaultUserIDPath string
-}
-
-var config = Config{}
+var config = Config{VaultFactoryFunc: AuthenticatedVaultClient, Input: os.Stdin, Output: os.Stdout}
 
 var rootCmd = &cobra.Command{
 	Use:     "polymerase",
@@ -49,65 +37,36 @@ func main() {
 
 func run(cmd *cobra.Command, args []string) {
 
-	if len(args) != 1 {
+	if len(args) > 1 {
 		cmd.Usage()
 		return
 	}
 
-	if err := validateConfig(config); err != nil {
+	if _, err := config.Validate(); err != nil {
 		logger.Fatalf("Error validating config: %v", err)
 	}
 
 	var err error
-	vault, err = authenticatedVaultUsingConfig(config)
+	vault, err = config.VaultFactoryFunc(config)
 	if err != nil {
 		logger.Fatalf("Error configuring vault: %v", err)
 	}
 
-	funcMap := template.FuncMap{"vault": vaultGetString}
-	filename := args[0]
-	tplName := filepath.Base(filename)
-	tmpl, err := template.New(tplName).Funcs(funcMap).ParseFiles(filename)
+	var tmpl Template
+	if len(args) == 1 {
+		tmpl, err = TemplateFromFile(args[0])
+	} else {
+		tmpl, err = TemplateFromReader(config.Input)
+	}
+
 	if err != nil {
 		logger.Fatalf("Error parsing template: %v", err)
 	}
 
-	err = tmpl.Execute(os.Stdout, env())
+	err = tmpl.Execute(config.Output, env())
 	if err != nil {
 		logger.Fatalf("Error populating template: %v", err)
 	}
-}
-
-func validateConfig(config Config) error {
-	if len(config.VaultAddr) == 0 {
-		return fmt.Errorf("Invalid vault address")
-	}
-
-	if len(config.VaultToken) > 0 && (len(config.VaultAppID) > 0 || len(config.VaultUserIDPath) > 0) {
-		return fmt.Errorf("Conflicting vault authentication strategies. Both app_id and token auth specified")
-	}
-
-	if len(config.VaultToken) == 0 && len(config.VaultAppID) == 0 && len(config.VaultUserIDPath) == 0 {
-		return fmt.Errorf("No vault authentication strategy provided. Please specify a vault token or app ID and user ID")
-	}
-
-	return nil
-}
-
-func authenticatedVaultUsingConfig(config Config) (*vaultclient.VaultClient, error) {
-
-	v, err := vaultclient.NewClient(&vaultclient.VaultConfig{Server: config.VaultAddr})
-	if err != nil {
-		return nil, err
-	}
-
-	if len(config.VaultToken) > 0 {
-		err = v.TokenAuth(config.VaultToken)
-	} else {
-		err = v.AppIDAuth(config.VaultAppID, config.VaultUserIDPath)
-	}
-
-	return v, err
 }
 
 func env() map[string]string {
