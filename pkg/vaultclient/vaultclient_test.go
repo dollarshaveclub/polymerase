@@ -15,6 +15,11 @@ var tconfig = VaultConfig{
 }
 
 func TestVaultAppIDAuth(t *testing.T) {
+
+	if len(os.Getenv("VAULT_CLIENT_TEST")) == 0 {
+		t.Skip("skipping test, VAULT_CLIENT_TEST not set")
+	}
+
 	vc, err := NewClient(&tconfig)
 	if err != nil {
 		log.Fatalf("Error creating client: %v", err)
@@ -26,6 +31,11 @@ func TestVaultAppIDAuth(t *testing.T) {
 }
 
 func TestVaultTokenAuth(t *testing.T) {
+
+	if len(os.Getenv("VAULT_CLIENT_TEST")) == 0 {
+		t.Skip("skipping test, VAULT_CLIENT_TEST not set")
+	}
+
 	vc, err := NewClient(&tconfig)
 	if err != nil {
 		log.Fatalf("Error creating client: %v", err)
@@ -37,6 +47,11 @@ func TestVaultTokenAuth(t *testing.T) {
 }
 
 func TestVaultGetValue(t *testing.T) {
+
+	if len(os.Getenv("VAULT_CLIENT_TEST")) == 0 {
+		t.Skip("skipping test, VAULT_CLIENT_TEST not set")
+	}
+
 	vc, err := NewClient(&tconfig)
 	if err != nil {
 		log.Fatalf("Error creating client: %v", err)

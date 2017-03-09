@@ -123,7 +123,6 @@ type MountInput struct {
 	Type        string           `json:"type" structs:"type"`
 	Description string           `json:"description" structs:"description"`
 	Config      MountConfigInput `json:"config" structs:"config"`
-	Local       bool             `json:"local" structs:"local"`
 }
 
 type MountConfigInput struct {
@@ -135,7 +134,6 @@ type MountOutput struct {
 	Type        string            `json:"type" structs:"type"`
 	Description string            `json:"description" structs:"description"`
 	Config      MountConfigOutput `json:"config" structs:"config"`
-	Local       bool              `json:"local" structs:"local"`
 }
 
 type MountConfigOutput struct {
