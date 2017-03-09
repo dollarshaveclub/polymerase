@@ -1,6 +1,6 @@
 # polymerase
 
-[![CircleCI](https://circleci.com/gh/dollarshaveclub/polymerase/tree/master.svg?style=svg)](https://circleci.com/gh/dollarshaveclub/polymerase/tree/master)
+[![CircleCI](https://circleci.com/gh/dollarshaveclub/polymerase/tree/master.svg?style=svg&circle-token=cd4f9b436ae7c5ef312db70b336671c24ac210dd)](https://circleci.com/gh/dollarshaveclub/polymerase/tree/master)
 
 Polymerase is a CLI tool for easy templating using environment variables and [Vault](https://www.vaultproject.io) values.
 
